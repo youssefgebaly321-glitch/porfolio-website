@@ -14,35 +14,13 @@ export default class Sizes extends EventEmitter {
         this.height = window.innerHeight;
         this.pixelRatio = Math.min(window.devicePixelRatio, 2);
 
-        // Resize event with debouncing and dimension change detection
+        // Resize event
         window.addEventListener('resize', () => {
-            // Clear existing timeout
-            if (this.resizeTimeout) {
-                clearTimeout(this.resizeTimeout);
-            }
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            this.pixelRatio = Math.min(window.devicePixelRatio, 2);
 
-            // Debounce: only trigger after 150ms of no resize events
-            this.resizeTimeout = window.setTimeout(() => {
-                const newWidth = window.innerWidth;
-                const newHeight = window.innerHeight;
-                const newPixelRatio = Math.min(window.devicePixelRatio, 2);
-
-                // Only trigger resize if dimensions actually changed
-                // This prevents zoom-only events from triggering re-renders
-                if (
-                    newWidth !== this.width ||
-                    newHeight !== this.height ||
-                    newPixelRatio !== this.pixelRatio
-                ) {
-                    this.width = newWidth;
-                    this.height = newHeight;
-                    this.pixelRatio = newPixelRatio;
-
-                    this.trigger('resize');
-                }
-
-                this.resizeTimeout = null;
-            }, 150);
+            this.trigger('resize');
         });
     }
 }
