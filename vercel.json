@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm install && npm run build && cd inner-site && npm install && npm run build",
+  "buildCommand": "npm install && cd inner-site && npm install && npm run build && cd .. && npm run build",
   "outputDirectory": "public",
   "devCommand": "npm run dev",
   "installCommand": "npm install && cd inner-site && npm install",
