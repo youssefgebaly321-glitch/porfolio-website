@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youssef Gebaly - Showcase 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'MS Sans Serif', 'Microsoft Sans Serif', Tahoma, sans-serif;
+            background: #008080;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .desktop {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Desktop Icons */
+        .desktop-icons {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1;
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .desktop-icon:hover {
+            background: rgba(0, 0, 128, 0.3);
+        }
+
+        .desktop-icon img {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 5px;
+        }
+
+        .desktop-icon span {
+            color: white;
+            font-size: 11px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* Window */
+        .window {
+            position: absolute;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #dfdfdf #000 #000 #dfdfdf;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .window.active {
+            display: flex;
+        }
+
+        .window.minimized {
+            display: none !important;
+        }
+
+        .title-bar {
+            background: linear-gradient(to right, #000080, #1084d0);
+            padding: 3px 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 24px;
+            cursor: move;
+        }
+
+        .title-bar-text {
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .title-bar-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .title-bar-controls button {
+            width: 16px;
+            height: 14px;
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #fff #000 #000 #fff;
+            font-size: 8px;
+            cursor: pointer;
+            padding: 0;
+            font-weight: bold;
+        }
+
+        .title-bar-controls button:active {
+            border-color: #000 #fff #fff #000;
+        }
+
+        /* Window Content */
+        .window-body {
+            flex: 1;
+            display: flex;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 140px;
+            background: #008080;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            border-right: 1px solid #000;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 11px;
+            padding: 5px 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 16px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: #c0c0c0;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: #808080;
+            border: 1px solid #dfdfdf;
+        }
+
+        h1 {
+            font-family: 'Times New Roman', serif;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-family: 'Times New Roman', serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            height: 28px;
+            background: #c0c0c0;
+            border-top: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            padding: 2px 4px;
+            gap: 2px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .start-button {
+            height: 22px;
+            padding: 0 8px;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #fff #000 #000 #fff;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .start-button:active {
+            border-color: #000 #fff #fff #000;
+        }
+
+        .taskbar-items {
+            flex: 1;
+            display: flex;
+            gap: 2px;
+        }
+
+        .taskbar-item {
+            height: 22px;
+            padding: 0 10px;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #000 #fff #fff #000;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .taskbar-item.active {
+            border-color: #fff #000 #000 #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icons">
+            <div class="desktop-icon" onclick="openWindow('showcase')">
+                <div style="width: 48px; height: 48px; background: #fff; border: 2px solid #000; display: flex; align-items: center; justify-content: center; font-size: 24px;">📁</div>
+                <span>My Showcase</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('snake')">
+                <div style="width: 48px; height: 48px; background: #fff; border: 2px solid #000; display: flex; align-items: center; justify-content: center; font-size: 24px;">🐍</div>
+                <span>Snake</span>
+            </div>
+        </div>
+
+        <!-- Showcase Window -->
+        <div id="showcase-window" class="window" style="top: 50px; left: 100px; width: 700px; height: 500px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Youssef Gebaly - Showcase 2025</div>
+                <div class="title-bar-controls">
+                    <button onclick="minimizeWindow('showcase')">_</button>
+                    <button onclick="closeWindow('showcase')">X</button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="sidebar">
+                    <a class="nav-link active" href="#" onclick="showSection('home')">HOME</a>
+                    <a class="nav-link" href="#" onclick="showSection('about')">• ABOUT</a>
+                    <a class="nav-link" href="#" onclick="showSection('experience')">• EXPERIENCE</a>
+                    <a class="nav-link" href="#" onclick="showSection('projects')">• PROJECTS</a>
+                    <a class="nav-link" href="#" onclick="showSection('contact')">• CONTACT</a>
+                </div>
+                <div class="content">
+                    <div id="home" class="section active">
+                        <h1>Youssef Gebaly</h1>
+                        <h2>Showcase '25</h2>
+                        <div style="margin: 20px 0; padding: 15px; border: 1px dashed #999;">
+                            <div style="font-size: 48px; text-align: center;">📄</div>
+                            <h3>Looking for my resume?</h3>
+                            <p><a href="#" style="color: #0000EE;">Click here to download it!</a></p>
+                        </div>
+                    </div>
+
+                    <div id="about" class="section">
+                        <h3>About Me</h3>
+                        <img src="https://via.placeholder.com/300x200/8B7355/ffffff?text=Vintage+Photo" style="width: 100%; max-width: 300px; margin: 10px 0;">
+                        <p>From a young age, I have always been interested in how things work. This curiosity naturally evolved into a passion for technology and programming.</p>
+                        <p>I love building projects and learning new skills. Whether it's web development, 3D graphics, or exploring emerging technologies, I'm always eager to dive deep and create something meaningful.</p>
+                    </div>
+
+                    <div id="experience" class="section">
+                        <h3>Experience</h3>
+                        <h4>Software Engineer</h4>
+                        <p style="color: #666;">Tech Company • 2023 - Present</p>
+                        <p>Developing modern web applications with cutting-edge technologies. Specializing in full-stack development with React, Node.js, and cloud services.</p>
+
+                        <h4 style="margin-top: 20px;">Junior Developer</h4>
+                        <p style="color: #666;">Startup Inc. • 2021 - 2023</p>
+                        <p>Built responsive web interfaces and contributed to backend API development. Worked with agile teams to deliver high-quality software solutions.</p>
+                    </div>
+
+                    <div id="projects" class="section">
+                        <h3>Projects</h3>
+                        <div style="background: #f5f5f5; padding: 15px; margin-bottom: 15px; border: 1px solid #ccc;">
+                            <h4>🌐 3D Portfolio Website</h4>
+                            <p>An interactive Windows 95-themed portfolio featuring a 3D isometric desktop scene built with Three.js.</p>
+                            <p style="font-style: italic; color: #666; font-size: 11px;">Tech: Three.js, JavaScript, CSS3</p>
+                        </div>
+                        <div style="background: #f5f5f5; padding: 15px; margin-bottom: 15px; border: 1px solid #ccc;">
+                            <h4>📊 Data Visualization Dashboard</h4>
+                            <p>Real-time analytics platform with interactive charts and data processing.</p>
+                            <p style="font-style: italic; color: #666; font-size: 11px;">Tech: React, D3.js, Node.js</p>
+                        </div>
+                    </div>
+
+                    <div id="contact" class="section">
+                        <h3>Contact</h3>
+                        <p>Feel free to reach out! I'm always open to new opportunities and collaborations.</p>
+                        <p><a href="mailto:your.email@example.com" style="color: #0000EE;">📧 Email</a></p>
+                        <p><a href="https://github.com/yourusername" style="color: #0000EE;">💻 GitHub</a></p>
+                        <p><a href="https://linkedin.com/in/yourusername" style="color: #0000EE;">💼 LinkedIn</a></p>
+                    </div>
+
+                    <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ccc; text-align: center; font-size: 11px; color: #666;">
+                        © Copyright 2025 Youssef Gebaly
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Snake Game Window -->
+        <div id="snake-window" class="window" style="top: 100px; left: 200px; width: 420px; height: 470px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Snake Game</div>
+                <div class="title-bar-controls">
+                    <button onclick="minimizeWindow('snake')">_</button>
+                    <button onclick="closeWindow('snake')">X</button>
+                </div>
+            </div>
+            <div class="window-body" style="padding: 10px;">
+                <canvas id="snakeCanvas" width="400" height="400" style="border: 2px solid #000; background: #000;"></canvas>
+                <div style="text-align: center; margin-top: 10px; font-size: 12px;">
+                    Score: <span id="score">0</span> | Use Arrow Keys
+                </div>
+            </div>
+        </div>
+
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <button class="start-button">🪟 Start</button>
+            <div class="taskbar-items">
+                <div id="showcase-taskbar" class="taskbar-item" onclick="toggleMinimize('showcase')" style="display: none;">
+                    My Showcase
+                </div>
+                <div id="snake-taskbar" class="taskbar-item" onclick="toggleMinimize('snake')" style="display: none;">
+                    Snake
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Window Management
+        function openWindow(name) {
+            const window = document.getElementById(name + '-window');
+            const taskbar = document.getElementById(name + '-taskbar');
+            window.classList.add('active');
+            window.classList.remove('minimized');
+            taskbar.style.display = 'flex';
+            taskbar.classList.add('active');
+
+            if (name === 'snake') {
+                startSnake();
+            }
+        }
+
+        function closeWindow(name) {
+            const window = document.getElementById(name + '-window');
+            const taskbar = document.getElementById(name + '-taskbar');
+            window.classList.remove('active');
+            taskbar.style.display = 'none';
+        }
+
+        function minimizeWindow(name) {
+            const window = document.getElementById(name + '-window');
+            const taskbar = document.getElementById(name + '-taskbar');
+            window.classList.add('minimized');
+            taskbar.classList.remove('active');
+        }
+
+        function toggleMinimize(name) {
+            const window = document.getElementById(name + '-window');
+            const taskbar = document.getElementById(name + '-taskbar');
+            if (window.classList.contains('minimized')) {
+                window.classList.remove('minimized');
+                taskbar.classList.add('active');
+            } else {
+                window.classList.add('minimized');
+                taskbar.classList.remove('active');
+            }
+        }
+
+        // Section Navigation
+        function showSection(sectionName) {
+            const sections = document.querySelectorAll('.section');
+            const links = document.querySelectorAll('.nav-link');
+
+            sections.forEach(s => s.classList.remove('active'));
+            links.forEach(l => l.classList.remove('active'));
+
+            document.getElementById(sectionName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Snake Game
+        let snake, direction, food, score, gameLoop;
+
+        function startSnake() {
+            const canvas = document.getElementById('snakeCanvas');
+            const ctx = canvas.getContext('2d');
+            const gridSize = 20;
+
+            snake = [{x: 200, y: 200}];
+            direction = {x: gridSize, y: 0};
+            food = {x: 300, y: 300};
+            score = 0;
+
+            document.getElementById('score').textContent = score;
+
+            if (gameLoop) clearInterval(gameLoop);
+
+            gameLoop = setInterval(() => {
+                // Move snake
+                const head = {x: snake[0].x + direction.x, y: snake[0].y + direction.y};
+
+                // Wrap around
+                if (head.x < 0) head.x = 400 - gridSize;
+                if (head.x >= 400) head.x = 0;
+                if (head.y < 0) head.y = 400 - gridSize;
+                if (head.y >= 400) head.y = 0;
+
+                snake.unshift(head);
+
+                // Check food
+                if (head.x === food.x && head.y === food.y) {
+                    score++;
+                    document.getElementById('score').textContent = score;
+                    food = {
+                        x: Math.floor(Math.random() * 20) * gridSize,
+                        y: Math.floor(Math.random() * 20) * gridSize
+                    };
+                } else {
+                    snake.pop();
+                }
+
+                // Draw
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, 400, 400);
+
+                ctx.fillStyle = '#0f0';
+                snake.forEach(segment => {
+                    ctx.fillRect(segment.x, segment.y, gridSize - 2, gridSize - 2);
+                });
+
+                ctx.fillStyle = '#f00';
+                ctx.fillRect(food.x, food.y, gridSize - 2, gridSize - 2);
+            }, 100);
+        }
+
+        // Snake Controls
+        document.addEventListener('keydown', (e) => {
+            const gridSize = 20;
+            if (e.key === 'ArrowUp' && direction.y === 0) direction = {x: 0, y: -gridSize};
+            if (e.key === 'ArrowDown' && direction.y === 0) direction = {x: 0, y: gridSize};
+            if (e.key === 'ArrowLeft' && direction.x === 0) direction = {x: -gridSize, y: 0};
+            if (e.key === 'ArrowRight' && direction.x === 0) direction = {x: gridSize, y: 0};
+        });
+    </script>
+</body>
+</html>
