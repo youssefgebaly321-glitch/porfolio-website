@@ -151,7 +151,7 @@ Both sites are deployed as separate Vercel projects from the same repository usi
 
 - Website: [youssefgebaly.com](https://youssefgebaly.com)
 - LinkedIn: [linkedin.com/in/youssef-gebaly](https://linkedin.com/in/youssef-gebaly)
-- Email: [your.email@example.com](mailto:your.email@example.com)
+- Email: [youssefgebaly321@gmail.com](mailto:youssefgebaly321@gmail.com)
 
 <br>
 
