@@ -58,9 +58,18 @@ export default class MonitorScreen extends EventEmitter {
     }
 
     initializeScreenEvents() {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
         document.addEventListener(
             'mousemove',
             (event) => {
+                // On mobile: skip camera transitions, only pass mouse event
+                if (isMobile) {
+                    this.application.mouse.trigger('mousemove', [event]);
+                    return;
+                }
+
+                // Desktop behavior unchanged below
                 // @ts-ignore
                 const id = event.target.id;
                 if (id === 'computer-screen') {
@@ -102,6 +111,13 @@ export default class MonitorScreen extends EventEmitter {
         document.addEventListener(
             'mousedown',
             (event) => {
+                // On mobile: skip camera transitions, only pass mouse event
+                if (isMobile) {
+                    this.application.mouse.trigger('mousedown', [event]);
+                    return;
+                }
+
+                // Desktop behavior unchanged below
                 // @ts-ignore
                 this.inComputer = event.inComputer;
                 this.application.mouse.trigger('mousedown', [event]);
@@ -114,6 +130,13 @@ export default class MonitorScreen extends EventEmitter {
         document.addEventListener(
             'mouseup',
             (event) => {
+                // On mobile: skip camera transitions, only pass mouse event
+                if (isMobile) {
+                    this.application.mouse.trigger('mouseup', [event]);
+                    return;
+                }
+
+                // Desktop behavior unchanged below
                 // @ts-ignore
                 this.inComputer = event.inComputer;
                 this.application.mouse.trigger('mouseup', [event]);
