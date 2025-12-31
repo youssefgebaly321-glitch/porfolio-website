@@ -3,7 +3,7 @@ node_modules/
 inner-site/node_modules/
 
 # Build outputs
-public/
+/public/
 dist/
 build/
 inner-site/build/
