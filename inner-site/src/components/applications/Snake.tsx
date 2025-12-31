@@ -216,19 +216,23 @@ const SnakeApp: React.FC<SnakeAppProps> = (props) => {
                 state.score++;
                 playEatSound(); // Play sound when eating food
                 // Generate new food
-                let newFood: { x: number; y: number };
-                let isValid = false;
-                do {
-                    newFood = {
-                        x: Math.floor(Math.random() * gridWidth),
-                        y: Math.floor(Math.random() * gridHeight),
-                    };
-                    isValid = !state.snake.some(
-                        (segment) =>
-                            segment.x === newFood.x && segment.y === newFood.y
-                    );
-                } while (!isValid);
-                state.food = newFood;
+                const generateFood = () => {
+                    let food: { x: number; y: number };
+                    let valid = false;
+                    do {
+                        food = {
+                            x: Math.floor(Math.random() * gridWidth),
+                            y: Math.floor(Math.random() * gridHeight),
+                        };
+                        const foodX = food.x;
+                        const foodY = food.y;
+                        valid = !state.snake.some(
+                            (segment) => segment.x === foodX && segment.y === foodY
+                        );
+                    } while (!valid);
+                    return food;
+                };
+                state.food = generateFood();
             } else {
                 state.snake.pop();
             }
