@@ -183,18 +183,21 @@ export default class MonitorScreen extends EventEmitter {
         };
 
         // Set iframe attributes
-        // PROD - For now using localhost dev server
-        iframe.src = 'http://localhost:3000/';
+        // Use production URL by default
+        iframe.src = 'https://os.youssefgebaly.com/';
+
         /**
-         * Use dev server is query params are present
+         * Use local dev server if query param is present
+         *
+         * Usage: http://localhost:8082/?dev
          *
          * Warning: This will not work unless the dev server is running on localhost:3000
          * Also running the dev server causes browsers to freak out over unsecure connections
          * in the iframe, so it will flag a ton of issues.
          */
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('prod')) {
-            iframe.src = 'https://os.youssefgebaly.com/';
+        if (urlParams.has('dev')) {
+            iframe.src = 'http://localhost:3000/';
         }
         iframe.style.width = this.screenSize.width + 'px';
         iframe.style.height = this.screenSize.height + 'px';
