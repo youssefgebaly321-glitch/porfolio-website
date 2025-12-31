@@ -4,6 +4,7 @@ export default class Sizes extends EventEmitter {
     width: number;
     height: number;
     pixelRatio: number;
+    private resizeTimeout: number | null = null;
 
     constructor() {
         super();
@@ -13,13 +14,22 @@ export default class Sizes extends EventEmitter {
         this.height = window.innerHeight;
         this.pixelRatio = Math.min(window.devicePixelRatio, 2);
 
-        // Resize event
+        // Resize event with debouncing
         window.addEventListener('resize', () => {
-            this.width = window.innerWidth;
-            this.height = window.innerHeight;
-            this.pixelRatio = Math.min(window.devicePixelRatio, 2);
+            // Clear existing timeout
+            if (this.resizeTimeout) {
+                clearTimeout(this.resizeTimeout);
+            }
 
-            this.trigger('resize');
+            // Debounce: only trigger after 150ms of no resize events
+            this.resizeTimeout = window.setTimeout(() => {
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+                this.pixelRatio = Math.min(window.devicePixelRatio, 2);
+
+                this.trigger('resize');
+                this.resizeTimeout = null;
+            }, 150);
         });
     }
 }
