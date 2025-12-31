@@ -217,6 +217,7 @@ const SnakeApp: React.FC<SnakeAppProps> = (props) => {
                 playEatSound(); // Play sound when eating food
                 // Generate new food
                 let newFood: { x: number; y: number };
+                // eslint-disable-next-line no-loop-func
                 do {
                     newFood = {
                         x: Math.floor(Math.random() * gridWidth),

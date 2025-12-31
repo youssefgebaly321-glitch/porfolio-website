@@ -2,13 +2,9 @@ import React from 'react';
 // @ts-ignore
 import computer from '../../../assets/pictures/projects/software/computer.mp4';
 // @ts-ignore
-import ragDemo from '../../../assets/pictures/projects/software/rag-demo.png';
-// @ts-ignore
 import ragCorrect from '../../../assets/pictures/projects/software/rag-correct.png';
 // @ts-ignore
 import padcevCorrect from '../../../assets/pictures/projects/software/padcev-correct.png';
-// @ts-ignore
-import healthhub from '../../../assets/pictures/projects/software/healthhub.png';
 // @ts-ignore
 import grafanaAi from '../../../assets/pictures/projects/software/grafana-ai.jpg';
 import ResumeDownload from '../ResumeDownload';
@@ -206,15 +202,6 @@ const SoftwareProjects: React.FC<SoftwareProjectsProps> = (props) => {
                     AL-Futtaim Healthcare network through a single integrated interface.
                 </p>
                 <br />
-                <div className="captioned-image">
-                    <img src={ragDemo} style={styles.image} alt="AL-Futtaim Healthhub Application" />
-                    <p style={styles.caption}>
-                        <sub>
-                            <b>Figure 4:</b> AL-Futtaim Healthhub application interface featuring appointment
-                            scheduling, patient records, and healthcare service coordination.
-                        </sub>
-                    </p>
-                </div>
                 <p>
                     Built with a focus on user experience and data security, the application implements industry-standard healthcare
                     data protection protocols while maintaining an intuitive interface for patients of all technical backgrounds.

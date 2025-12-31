@@ -1,6 +1,4 @@
 import React from 'react';
-import me from '../../assets/pictures/workingAtComputer.jpg';
-import meNow from '../../assets/pictures/currentme.jpg';
 import santa1 from '../../assets/pictures/santa1.jpg';
 import santa2 from '../../assets/pictures/santa2.jpg';
 import menow2025 from '../../assets/pictures/menow2025.jpg';
