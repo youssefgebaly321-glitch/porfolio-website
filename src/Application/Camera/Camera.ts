@@ -67,6 +67,11 @@ export default class Camera extends EventEmitter {
         };
 
         document.addEventListener('mousedown', (event) => {
+            // Ignore on mobile devices to prevent zoom-triggered camera transitions
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                return;
+            }
+
             event.preventDefault();
             // @ts-ignore
             if (event.target.id === 'prevent-click') return;

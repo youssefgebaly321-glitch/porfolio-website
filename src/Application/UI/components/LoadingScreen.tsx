@@ -22,6 +22,10 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [mobileWarning, setMobileWarning] = useState(window.innerWidth < 768);
 
     const onResize = () => {
+        // Ignore resize events on mobile to prevent zoom-triggered re-renders
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (isMobile) return;
+
         if (window.innerWidth < 768) {
             setMobileWarning(true);
         } else {
@@ -29,7 +33,12 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         }
     };
 
-    window.addEventListener('resize', onResize);
+    useEffect(() => {
+        window.addEventListener('resize', onResize);
+        return () => {
+            window.removeEventListener('resize', onResize);
+        };
+    }, []);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
