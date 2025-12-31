@@ -1,6 +1,10 @@
 import './style.css';
+import { inject } from '@vercel/analytics';
 
 import Application from './Application/Application';
+
+// Initialize Vercel Analytics
+inject();
 
 // Prevent iOS Safari zoom/pinch gestures that cause page reload/black screen
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
