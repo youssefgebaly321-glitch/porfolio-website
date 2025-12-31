@@ -217,18 +217,17 @@ const SnakeApp: React.FC<SnakeAppProps> = (props) => {
                 playEatSound(); // Play sound when eating food
                 // Generate new food
                 let newFood: { x: number; y: number };
-                // eslint-disable-next-line no-loop-func
+                let isValid = false;
                 do {
                     newFood = {
                         x: Math.floor(Math.random() * gridWidth),
                         y: Math.floor(Math.random() * gridHeight),
                     };
-                } while (
-                    state.snake.some(
+                    isValid = !state.snake.some(
                         (segment) =>
                             segment.x === newFood.x && segment.y === newFood.y
-                    )
-                );
+                    );
+                } while (!isValid);
                 state.food = newFood;
             } else {
                 state.snake.pop();
